@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileUp,
@@ -70,7 +70,12 @@ async function encryptAndStore(input: EncryptInput): Promise<string> {
   return `${origin}/s/${data.id}#${keyHex}`;
 }
 
-export function ShareForm() {
+interface ShareFormProps {
+  droppedFile?: File | null;
+  onDroppedFileConsumed?: () => void;
+}
+
+export function ShareForm({ droppedFile, onDroppedFileConsumed }: ShareFormProps) {
   const [mode, setMode] = useState<"text" | "file">("text");
   const [secret, setSecret] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -81,7 +86,6 @@ export function ShareForm() {
   const [expiry, setExpiry] = useState<ExpiryOption>("24h");
   const [shareLink, setShareLink] = useState("");
   const [copied, setCopied] = useState(false);
-  const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const mutation = useMutation({
@@ -89,15 +93,14 @@ export function ShareForm() {
     onSuccess: (link) => setShareLink(link),
   });
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const droppedFile = e.dataTransfer.files[0];
+  // Handle file dropped from full-page drop zone
+  useEffect(() => {
     if (droppedFile) {
       setFile(droppedFile);
       setMode("file");
+      onDroppedFileConsumed?.();
     }
-  }, []);
+  }, [droppedFile, onDroppedFileConsumed]);
 
   const handleFileSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -225,39 +228,7 @@ export function ShareForm() {
   }
 
   return (
-    <div
-      className="relative space-y-5"
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragOver(true);
-      }}
-      onDragLeave={(e) => {
-        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
-        setDragOver(false);
-      }}
-      onDrop={handleDrop}
-    >
-      {/* Global drop overlay */}
-      <AnimatePresence>
-        {dragOver && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center rounded-2xl border-2 border-dashed border-primary/50 bg-primary/5 backdrop-blur-sm"
-          >
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                <FileUp className="h-7 w-7 text-primary" />
-              </div>
-              <p className="text-sm font-medium text-primary">
-                Drop your file here
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+    <div className="space-y-5">
       {/* Mode tabs */}
       <div className="flex gap-1 rounded-xl border border-border/50 bg-secondary/30 p-1">
         {(["text", "file"] as const).map((m) => (
