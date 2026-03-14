@@ -6,7 +6,6 @@ import {
   Shield,
   Github,
   ExternalLink,
-  Terminal,
   Sparkles,
 } from "lucide-react";
 
@@ -28,7 +27,6 @@ const footerLinks = {
 
 const stats = [
   { icon: Shield, label: "Zero-Knowledge", value: "E2E Encrypted" },
-  { icon: Terminal, label: "CLI First", value: "Developer Friendly" },
   { icon: Sparkles, label: "Open Source", value: "MIT License" },
 ];
 
@@ -64,7 +62,7 @@ export function Footer() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="hidden grid-cols-3 divide-x divide-border/10 py-10 md:grid"
+          className="hidden grid-cols-2 divide-x divide-border/10 py-10 md:grid"
         >
           {stats.map((stat, index) => (
             <motion.div
