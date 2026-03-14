@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSecret, type CreateSecretInput } from "@/lib/secrets";
 import { createSecretLimiter } from "@/lib/ratelimit";
 
-const MAX_PAYLOAD_SIZE = 200 * 1024;
-const VALID_EXPIRY = ["1h", "24h", "7d"] as const;
+// 200KB plaintext → ~512KB after hex-encoded AES-256-GCM encryption
+const MAX_PAYLOAD_SIZE = 512 * 1024;
+const VALID_EXPIRY = ["1h", "24h", "3d"] as const;
 const VALID_TYPES = ["text", "file"] as const;
 
 function getIP(req: NextRequest): string {
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (body.encryptedData.length > MAX_PAYLOAD_SIZE) {
-    return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
+    return NextResponse.json({ error: "payload_too_large", length: body.encryptedData.length, max: MAX_PAYLOAD_SIZE }, { status: 413 });
   }
 
   if (

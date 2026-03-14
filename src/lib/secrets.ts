@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 const EXPIRY_MAP = {
   "1h": 3600,
   "24h": 86400,
-  "7d": 604800,
+  "3d": 259200,
 } as const;
 
 export type ExpiryOption = keyof typeof EXPIRY_MAP;
@@ -59,11 +59,12 @@ export async function getSecret(id: string): Promise<StoredSecret | null> {
 
   const secret: StoredSecret = typeof raw === "string" ? JSON.parse(raw) : raw;
 
-  if (secret.burnAfterRead) {
-    await redis.del(`secret:${id}`);
-  }
-
   return secret;
+}
+
+export async function burnSecret(id: string): Promise<boolean> {
+  const deleted = await redis.del(`secret:${id}`);
+  return deleted > 0;
 }
 
 export async function deleteSecret(id: string): Promise<void> {
