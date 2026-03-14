@@ -1,7 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ShieldCheck, FileKey, Flame, KeyRound, Timer, Github } from "lucide-react";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import {
+  ShieldCheck,
+  FileKey,
+  Flame,
+  KeyRound,
+  Timer,
+  Github,
+} from "lucide-react";
+import { useCallback, useRef, type MouseEvent } from "react";
 
 const features = [
   {
@@ -42,6 +50,91 @@ const features = [
   },
 ];
 
+function FeatureCard({
+  feature,
+  index,
+}: {
+  feature: (typeof features)[number];
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const rect = cardRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    },
+    [mouseX, mouseY]
+  );
+
+  const spotlightBackground = useMotionTemplate`radial-gradient(350px circle at ${mouseX}px ${mouseY}px, var(--primary) 0%, transparent 100%)`;
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onMouseMove={handleMouseMove}
+      className="group relative rounded-2xl p-px"
+    >
+      {/* Animated border glow that follows cursor */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-20"
+        style={{ background: spotlightBackground }}
+      />
+
+      {/* Static border */}
+      <div className="absolute inset-0 rounded-2xl border border-border/50 transition-colors duration-500 group-hover:border-border" />
+
+      {/* Card content */}
+      <div className="relative overflow-hidden rounded-2xl bg-card/50 p-7 backdrop-blur-sm transition-colors duration-500 group-hover:bg-card/80">
+        {/* Spotlight glow inside */}
+        <motion.div
+          className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: spotlightBackground }}
+        >
+          <div className="absolute inset-0 bg-card/90" />
+        </motion.div>
+
+        {/* Top shine line */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+        <div className="relative z-10">
+          {/* Icon with animated ring */}
+          <div className="relative mb-6">
+            <motion.div
+              className="flex h-14 w-14 items-center justify-center rounded-xl border border-border/50 bg-secondary/50 transition-all duration-500 group-hover:border-primary/30 group-hover:bg-primary/10 group-hover:shadow-lg group-hover:shadow-primary/10"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <feature.icon className="h-6 w-6 text-muted-foreground transition-colors duration-500 group-hover:text-foreground" />
+            </motion.div>
+
+            {/* Pulse ring behind icon on hover */}
+            <div className="absolute -inset-1 rounded-xl bg-primary/10 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
+          </div>
+
+          <h3 className="mb-2.5 text-lg font-semibold tracking-tight transition-colors duration-300 group-hover:text-foreground">
+            {feature.title}
+          </h3>
+          <p className="text-sm leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground/80">
+            {feature.description}
+          </p>
+
+          {/* Bottom accent line */}
+          <div className="mt-5 h-px w-0 bg-gradient-to-r from-primary/50 to-transparent transition-all duration-700 group-hover:w-full" />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Features() {
   return (
     <section className="relative px-6 py-24">
@@ -63,29 +156,7 @@ export function Features() {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-7 transition-all duration-300 hover:border-border hover:bg-card hover:shadow-lg hover:shadow-primary/5"
-            >
-              {/* Subtle gradient on hover */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/[0.03] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-              <div className="relative">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-secondary/50 transition-colors duration-300 group-hover:border-primary/20 group-hover:bg-primary/10">
-                  <feature.icon className="h-5 w-5 text-muted-foreground transition-colors duration-300 group-hover:text-foreground" />
-                </div>
-                <h3 className="mb-2.5 text-lg font-semibold tracking-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {feature.description}
-                </p>
-              </div>
-            </motion.div>
+            <FeatureCard key={feature.title} feature={feature} index={i} />
           ))}
         </div>
       </div>
