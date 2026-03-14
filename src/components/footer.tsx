@@ -50,7 +50,17 @@ export function Footer() {
             )`,
           }}
         />
-        <div className="absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,var(--primary)/0.06,transparent_70%)]" />
+        {/* Top center glow */}
+        <div className="absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,var(--primary)/0.08,transparent_70%)]" />
+
+        {/* Left blob */}
+        <div className="absolute -left-32 top-1/3 h-[350px] w-[350px] rounded-full bg-primary/[0.04] blur-[100px]" />
+
+        {/* Right blob */}
+        <div className="absolute -right-32 top-1/2 h-[300px] w-[300px] rounded-full bg-chart-1/[0.04] blur-[100px]" />
+
+        {/* Bottom center glow */}
+        <div className="absolute bottom-0 left-1/2 h-[250px] w-[600px] -translate-x-1/2 rounded-full bg-primary/[0.05] blur-[120px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
