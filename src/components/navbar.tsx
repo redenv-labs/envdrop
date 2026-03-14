@@ -3,6 +3,7 @@
 import { Shield, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -13,14 +14,14 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Shield className="h-4 w-4 text-primary-foreground" />
           </div>
           <span className="text-lg font-semibold tracking-tight">
             EnvDrop
           </span>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-3">
           {mounted && (
@@ -35,9 +36,9 @@ export function Navbar() {
               )}
             </button>
           )}
-          <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
+          <Link href="/share" className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
             Share a Secret
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

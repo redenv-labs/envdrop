@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Lock, Eye, Flame } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const ENCRYPTED_CHARS = "█▓▒░╳╱╲◆◇○●";
 
@@ -219,13 +220,13 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <button className="group flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
+          <Link href="/share" className="group flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
             Share a Secret
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </button>
-          <button className="flex items-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary">
+          </Link>
+          <Link href="/share" className="flex items-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary">
             Drop a .env File
-          </button>
+          </Link>
         </motion.div>
 
         {/* Trust indicators */}
