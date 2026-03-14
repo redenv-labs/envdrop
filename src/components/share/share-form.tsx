@@ -23,10 +23,52 @@ import {
   deriveKey,
   bufferToHex,
 } from "@redenv/e2ee";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 
 type ExpiryOption = "1h" | "24h" | "7d";
+
+interface EncryptInput {
+  plaintext: string;
+  burnAfterRead: boolean;
+  expiry: ExpiryOption;
+  type: "text" | "file";
+  fileName?: string;
+  fileSize?: number;
+  password?: string;
+}
+
+async function encryptAndStore(input: EncryptInput): Promise<string> {
+  const masterKey = await generateRandomKey();
+  const encryptedData = await encrypt(input.plaintext, masterKey);
+  const keyHex = await exportKey(masterKey);
+
+  const payload: Record<string, unknown> = {
+    encryptedData,
+    burnAfterRead: input.burnAfterRead,
+    expiry: input.expiry,
+    type: input.type,
+    ...(input.fileName && { fileName: input.fileName }),
+    ...(input.fileSize && { fileSize: input.fileSize }),
+  };
+
+  if (input.password) {
+    const salt = generateSalt();
+    const passwordKey = await deriveKey(input.password, salt);
+    const encryptedKey = await encrypt(keyHex, passwordKey);
+    payload.encryptedKey = encryptedKey;
+    payload.salt = bufferToHex(salt);
+  }
+
+  const { data } = await axios.post("/api/secrets", payload);
+
+  const origin = window.location.origin;
+  if (input.password) {
+    return `${origin}/s/${data.id}`;
+  }
+  return `${origin}/s/${data.id}#${keyHex}`;
+}
 
 export function ShareForm() {
   const [mode, setMode] = useState<"text" | "file">("text");
@@ -37,11 +79,15 @@ export function ShareForm() {
   const [usePassword, setUsePassword] = useState(false);
   const [burnAfterRead, setBurnAfterRead] = useState(true);
   const [expiry, setExpiry] = useState<ExpiryOption>("24h");
-  const [isEncrypting, setIsEncrypting] = useState(false);
   const [shareLink, setShareLink] = useState("");
   const [copied, setCopied] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const mutation = useMutation({
+    mutationFn: encryptAndStore,
+    onSuccess: (link) => setShareLink(link),
+  });
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -71,53 +117,24 @@ export function ShareForm() {
   }, []);
 
   const handleEncrypt = async () => {
-    setIsEncrypting(true);
-
-    try {
-      let plaintext: string;
-      if (mode === "file" && file) {
-        plaintext = await file.text();
-      } else {
-        plaintext = secret;
-      }
-
-      const masterKey = await generateRandomKey();
-      const encryptedData = await encrypt(plaintext, masterKey);
-      const keyHex = await exportKey(masterKey);
-
-      const payload: Record<string, unknown> = {
-        encryptedData,
-        burnAfterRead,
-        expiry,
-        type: mode,
-        ...(mode === "file" &&
-          file && {
-            fileName: file.name,
-            fileSize: file.size,
-          }),
-      };
-
-      if (usePassword && password) {
-        const salt = generateSalt();
-        const passwordKey = await deriveKey(password, salt);
-        const encryptedKey = await encrypt(keyHex, passwordKey);
-        payload.encryptedKey = encryptedKey;
-        payload.salt = bufferToHex(salt);
-      }
-
-      const { data } = await axios.post("/api/secrets", payload);
-
-      const origin = window.location.origin;
-      if (usePassword && password) {
-        setShareLink(`${origin}/s/${data.id}`);
-      } else {
-        setShareLink(`${origin}/s/${data.id}#${keyHex}`);
-      }
-    } catch (err) {
-      console.error("Encryption failed:", err);
-    } finally {
-      setIsEncrypting(false);
+    let plaintext: string;
+    if (mode === "file" && file) {
+      plaintext = await file.text();
+    } else {
+      plaintext = secret;
     }
+
+    mutation.mutate({
+      plaintext,
+      burnAfterRead,
+      expiry,
+      type: mode,
+      ...(mode === "file" && file && {
+        fileName: file.name,
+        fileSize: file.size,
+      }),
+      ...(usePassword && password && { password }),
+    });
   };
 
   const handleCopy = async () => {
@@ -436,7 +453,7 @@ export function ShareForm() {
       {/* Encrypt button */}
       <button
         onClick={handleEncrypt}
-        disabled={!hasContent || isEncrypting}
+        disabled={!hasContent || mutation.isPending}
         className={cn(
           "flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-medium transition-all",
           hasContent
@@ -444,7 +461,7 @@ export function ShareForm() {
             : "cursor-not-allowed bg-secondary text-muted-foreground"
         )}
       >
-        {isEncrypting ? (
+        {mutation.isPending ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />
             Encrypting...
