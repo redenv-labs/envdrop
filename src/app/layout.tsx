@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { AppProgressProvider as ProgressProvider } from "@bprogress/next";
+import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -37,21 +36,7 @@ export default function RootLayout({
           "font-sans antialiased"
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ProgressProvider
-            height="4px"
-            color="#fffd00"
-            options={{ showSpinner: false }}
-            shallowRouting
-          >
-            {children}
-          </ProgressProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
