@@ -13,7 +13,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       let iteration = 0;
-      const maxIterations = finalText.length * 3;
+      const maxIterations = finalText.length * 2;
 
       const interval = setInterval(() => {
         setText(
@@ -21,7 +21,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
             .split("")
             .map((char, i) => {
               if (char === " ") return " ";
-              if (i < iteration / 3) return char;
+              if (i < iteration / 2) return char;
               return ENCRYPTED_CHARS[
                 Math.floor(Math.random() * ENCRYPTED_CHARS.length)
               ];
@@ -34,7 +34,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
           setText(finalText);
           setDone(true);
         }
-      }, 30);
+      }, 20);
 
       return () => clearInterval(interval);
     }, delay);
@@ -76,7 +76,7 @@ function TerminalWindow() {
           <div className="h-3 w-3 rounded-full bg-chart-1/70" />
           <div className="h-3 w-3 rounded-full bg-ring/70" />
           <span className="ml-2 font-mono text-xs text-muted-foreground">
-            envdrop — zero-knowledge sharing
+            envdrop - zero-knowledge sharing
           </span>
         </div>
 

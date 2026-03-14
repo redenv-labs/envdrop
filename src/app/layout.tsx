@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EnvDrop — Share secrets without trusting anyone",
+  title: "EnvDrop - Share secrets without trusting anyone",
   description:
     "Zero-knowledge encrypted secret sharing for developers. Your browser encrypts. The server knows nothing.",
 };
@@ -33,7 +33,7 @@ export default function RootLayout({
         className={cn(
           geistSans.variable,
           geistMono.variable,
-          "font-sans antialiased"
+          "font-sans antialiased scrollbar-hide"
         )}
       >
         <ThemeProvider
