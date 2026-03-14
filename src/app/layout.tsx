@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AppProgressProvider as ProgressProvider } from "@bprogress/next";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={cn(
           geistSans.variable,
           geistMono.variable,
-          "font-sans antialiased scrollbar-hide"
+          "font-sans antialiased"
         )}
       >
         <ThemeProvider
@@ -42,7 +43,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ProgressProvider
+            height="4px"
+            color="#fffd00"
+            options={{ showSpinner: false }}
+            shallowRouting
+          >
+            {children}
+          </ProgressProvider>
         </ThemeProvider>
       </body>
     </html>
