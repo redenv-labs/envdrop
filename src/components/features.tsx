@@ -8,7 +8,7 @@ const features = [
     icon: ShieldCheck,
     title: "Zero-knowledge",
     description:
-      "Encryption happens entirely in your browser. The server stores only encrypted blobs — it can never see your data.",
+      "Encryption happens entirely in your browser. The server stores only encrypted blobs and can never see your data.",
   },
   {
     icon: FileKey,
@@ -26,7 +26,7 @@ const features = [
     icon: KeyRound,
     title: "Password protection",
     description:
-      "Add an extra layer with a password. It's used as additional key material client-side — never sent to the server.",
+      "Add an extra layer with a password. It is used as additional key material client-side, never sent to the server.",
   },
   {
     icon: Timer,
@@ -38,7 +38,7 @@ const features = [
     icon: Github,
     title: "Open source",
     description:
-      "The core encryption model is fully open source. Audit it, fork it, trust it — transparency by default.",
+      "The core encryption model is fully open source. Audit it, fork it, trust it. Transparency by default.",
   },
 ];
 
@@ -61,7 +61,7 @@ export function Features() {
           </p>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
@@ -69,15 +69,22 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="group rounded-xl border border-border/50 bg-card/50 p-6 transition-colors hover:bg-card"
+              className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 p-7 transition-all duration-300 hover:border-border hover:bg-card hover:shadow-lg hover:shadow-primary/5"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-secondary">
-                <feature.icon className="h-5 w-5 text-foreground" />
+              {/* Subtle gradient on hover */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/[0.03] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              <div className="relative">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-secondary/50 transition-colors duration-300 group-hover:border-primary/20 group-hover:bg-primary/10">
+                  <feature.icon className="h-5 w-5 text-muted-foreground transition-colors duration-300 group-hover:text-foreground" />
+                </div>
+                <h3 className="mb-2.5 text-lg font-semibold tracking-tight">
+                  {feature.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="mb-2 text-base font-semibold">{feature.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {feature.description}
-              </p>
             </motion.div>
           ))}
         </div>
