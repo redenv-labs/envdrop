@@ -12,8 +12,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <ProgressProvider
-        height="4px"
-        color="#fffd00"
+        height="3px"
+        color="oklch(0.723 0.014 214.4)"
         options={{ showSpinner: false }}
         shallowRouting
       >
