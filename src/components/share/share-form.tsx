@@ -15,6 +15,15 @@ import {
   Loader2,
   Shield,
 } from "lucide-react";
+import {
+  generateRandomKey,
+  exportKey,
+  encrypt,
+  generateSalt,
+  deriveKey,
+  bufferToHex,
+} from "@redenv/e2ee";
+import axios from "axios";
 import { cn } from "@/lib/utils";
 
 type ExpiryOption = "1h" | "24h" | "7d";
@@ -64,12 +73,51 @@ export function ShareForm() {
   const handleEncrypt = async () => {
     setIsEncrypting(true);
 
-    // TODO: Wire up @redenv/e2ee encryption + Supabase storage
-    // For now, simulate the flow
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      let plaintext: string;
+      if (mode === "file" && file) {
+        plaintext = await file.text();
+      } else {
+        plaintext = secret;
+      }
 
-    setShareLink("https://envdrop.dev/s/demo123#decryptionKeyHere");
-    setIsEncrypting(false);
+      const masterKey = await generateRandomKey();
+      const encryptedData = await encrypt(plaintext, masterKey);
+      const keyHex = await exportKey(masterKey);
+
+      const payload: Record<string, unknown> = {
+        encryptedData,
+        burnAfterRead,
+        expiry,
+        type: mode,
+        ...(mode === "file" &&
+          file && {
+            fileName: file.name,
+            fileSize: file.size,
+          }),
+      };
+
+      if (usePassword && password) {
+        const salt = generateSalt();
+        const passwordKey = await deriveKey(password, salt);
+        const encryptedKey = await encrypt(keyHex, passwordKey);
+        payload.encryptedKey = encryptedKey;
+        payload.salt = bufferToHex(salt);
+      }
+
+      const { data } = await axios.post("/api/secrets", payload);
+
+      const origin = window.location.origin;
+      if (usePassword && password) {
+        setShareLink(`${origin}/s/${data.id}`);
+      } else {
+        setShareLink(`${origin}/s/${data.id}#${keyHex}`);
+      }
+    } catch (err) {
+      console.error("Encryption failed:", err);
+    } finally {
+      setIsEncrypting(false);
+    }
   };
 
   const handleCopy = async () => {
