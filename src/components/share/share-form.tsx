@@ -225,7 +225,39 @@ export function ShareForm() {
   }
 
   return (
-    <div className="space-y-5">
+    <div
+      className="relative space-y-5"
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragOver(true);
+      }}
+      onDragLeave={(e) => {
+        if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+        setDragOver(false);
+      }}
+      onDrop={handleDrop}
+    >
+      {/* Global drop overlay */}
+      <AnimatePresence>
+        {dragOver && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center rounded-2xl border-2 border-dashed border-primary/50 bg-primary/5 backdrop-blur-sm"
+          >
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                <FileUp className="h-7 w-7 text-primary" />
+              </div>
+              <p className="text-sm font-medium text-primary">
+                Drop your file here
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mode tabs */}
       <div className="flex gap-1 rounded-xl border border-border/50 bg-secondary/30 p-1">
         {(["text", "file"] as const).map((m) => (
@@ -291,19 +323,8 @@ export function ShareForm() {
               </div>
             ) : (
               <div
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setDragOver(true);
-                }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={cn(
-                  "flex h-48 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed transition-colors",
-                  dragOver
-                    ? "border-primary/50 bg-primary/5"
-                    : "border-border/50 bg-card/30 hover:border-border hover:bg-card/50"
-                )}
+                className="flex h-48 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-border/50 bg-card/30 transition-colors hover:border-border hover:bg-card/50"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/50">
                   <FileUp className="h-6 w-6 text-muted-foreground" />
