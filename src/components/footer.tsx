@@ -2,12 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-  Shield,
-  Github,
-  ExternalLink,
-  Sparkles,
-} from "lucide-react";
+import { Shield, Github, ExternalLink, Sparkles } from "lucide-react";
 
 const footerLinks = {
   product: [
@@ -20,9 +15,7 @@ const footerLinks = {
     { label: "Security", href: "#" },
     { label: "Open Source", href: "#", external: true },
   ],
-  social: [
-    { label: "GitHub", href: "#", external: true },
-  ],
+  social: [{ label: "GitHub", href: "#", external: true }],
 };
 
 const stats = [
@@ -51,21 +44,21 @@ export function Footer() {
           }}
         />
         {/* Top center glow */}
-        <div className="absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,var(--primary)/0.08,transparent_70%)]" />
+        <div className="absolute left-1/2 top-0 h-100 w-200 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,var(--primary)/0.08,transparent_70%)]" />
 
         {/* Left blob */}
-        <div className="absolute -left-32 top-1/3 h-[350px] w-[350px] rounded-full bg-primary/[0.04] blur-[100px]" />
+        <div className="absolute -left-32 top-1/3 h-87.5 w-87.5 rounded-full bg-primary/4 blur-[100px]" />
 
         {/* Right blob */}
-        <div className="absolute -right-32 top-1/2 h-[300px] w-[300px] rounded-full bg-chart-1/[0.04] blur-[100px]" />
+        <div className="absolute -right-32 top-1/2 h-75 w-75 rounded-full bg-chart-1/4 blur-[100px]" />
 
         {/* Bottom center glow */}
-        <div className="absolute bottom-0 left-1/2 h-[250px] w-[600px] -translate-x-1/2 rounded-full bg-primary/[0.05] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/2 h-62.5 w-150 -translate-x-1/2 rounded-full bg-primary/5 blur-[120px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         {/* Top gradient line */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-border/50 to-transparent" />
+        <div className="h-px w-full bg-linear-to-r from-transparent via-border/50 to-transparent" />
 
         {/* Stats banner */}
         <motion.div
@@ -101,7 +94,7 @@ export function Footer() {
         </motion.div>
 
         {/* Divider */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="h-px w-full bg-linear-to-r from-transparent via-border/30 to-transparent" />
 
         {/* Links section */}
         <div className="py-16">
@@ -116,18 +109,16 @@ export function Footer() {
               <div className="mb-6 flex items-center gap-4">
                 <div className="group relative">
                   <div className="absolute -inset-2 rounded-2xl bg-primary/20 opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-gradient-to-br from-primary/20 to-primary/5">
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-linear-to-br from-primary/20 to-primary/5">
                     <Shield className="h-6 w-6 text-primary" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold tracking-tight">
-                    EnvDrop
-                  </h3>
+                  <h3 className="text-xl font-bold tracking-tight">EnvDrop</h3>
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     by{" "}
                     <a
-                      href="https://redenvlabs.com"
+                      href="https://github.com/redenv-labs"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-muted-foreground hover:underline"
@@ -213,7 +204,7 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="h-px w-full bg-linear-to-r from-transparent via-border/30 to-transparent" />
 
         {/* Bottom bar */}
         <motion.div
@@ -227,7 +218,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()}{" "}
               <a
                 className="text-foreground/70 hover:underline"
-                href="https://redenvlabs.com"
+                href="https://github.com/redenv-labs"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -243,7 +234,7 @@ export function Footer() {
       </div>
 
       {/* Bottom decorative line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
     </footer>
   );
 }

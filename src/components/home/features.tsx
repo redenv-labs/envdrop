@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 
-const CIPHER_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+const CIPHER_CHARS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
 function ZeroKnowledgeVisual() {
   const originalLines = useMemo(
@@ -22,11 +23,11 @@ function ZeroKnowledgeVisual() {
       { key: "API_KEY", value: "sk_live_9x8h2k" },
       { key: "SECRET", value: "a1b2c3d4e5f6g7h8" },
     ],
-    []
+    [],
   );
 
   const [lines, setLines] = useState(() =>
-    originalLines.map((l) => ({ key: l.key, value: l.value }))
+    originalLines.map((l) => ({ key: l.key, value: l.value })),
   );
 
   useEffect(() => {
@@ -36,18 +37,19 @@ function ZeroKnowledgeVisual() {
           key: line.key,
           value: line.value
             .split("")
-            .map(() =>
-              CIPHER_CHARS[Math.floor(Math.random() * CIPHER_CHARS.length)]
+            .map(
+              () =>
+                CIPHER_CHARS[Math.floor(Math.random() * CIPHER_CHARS.length)],
             )
             .join(""),
-        }))
+        })),
       );
     }, 80);
     return () => clearInterval(interval);
   }, [originalLines]);
 
   return (
-    <div className="w-full max-w-[200px] space-y-2 rounded-lg border border-border/30 bg-card/80 p-3 font-mono text-[11px]">
+    <div className="w-full max-w-50 space-y-2 rounded-lg border border-border/30 bg-card/80 p-3 font-mono text-[11px]">
       {lines.map((line, i) => (
         <div key={i} className="flex items-center gap-0.5 overflow-hidden">
           <span className="shrink-0 text-muted-foreground/50 select-none">
@@ -68,7 +70,7 @@ function ZeroKnowledgeVisual() {
 
 function EnvFileVisual() {
   return (
-    <div className="relative flex w-full max-w-[200px] items-center justify-center">
+    <div className="relative flex w-full max-w-50 items-center justify-center">
       <div className="relative flex h-24 w-full items-center justify-center rounded-lg border border-dashed border-border/60 bg-secondary/10">
         {/* Falling file chip */}
         <motion.div
@@ -135,7 +137,7 @@ function BurnVisual() {
   const secretText = "sk_live_a8f3Kx92bQ7n";
 
   return (
-    <div className="relative w-full max-w-[200px]">
+    <div className="relative w-full max-w-50">
       <div className="relative overflow-hidden rounded-lg border border-border/30 bg-card/80 p-3">
         {/* Secret text that burns away */}
         <div className="flex items-center gap-2">
@@ -158,7 +160,7 @@ function BurnVisual() {
                 opacity: phase >= 1 ? 1 : 0,
               }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="absolute inset-0 origin-left bg-gradient-to-r from-destructive/20 via-destructive/10 to-transparent"
+              className="absolute inset-0 origin-left bg-linear-to-r from-destructive/20 via-destructive/10 to-transparent"
             />
           </div>
         </div>
@@ -177,11 +179,7 @@ function BurnVisual() {
             className="h-1.5 w-1.5 rounded-full"
           />
           <span className="font-mono text-[9px] text-muted-foreground">
-            {phase === 0
-              ? "viewed"
-              : phase === 1
-                ? "burning..."
-                : "destroyed"}
+            {phase === 0 ? "viewed" : phase === 1 ? "burning..." : "destroyed"}
           </span>
         </div>
       </div>
@@ -193,6 +191,7 @@ function BurnVisual() {
             key={`${phase}-${i}`}
             initial={{ y: 0, x: 0, opacity: 0 }}
             animate={{
+              // eslint-disable-next-line react-hooks/purity
               y: -30 - Math.random() * 20,
               x: (i - 2) * 10,
               opacity: [0, 0.8, 0],
@@ -235,7 +234,7 @@ function PasswordVisual() {
   }, [locked]);
 
   return (
-    <div className="w-full max-w-[200px]">
+    <div className="w-full max-w-50">
       <div className="rounded-lg border border-border/30 bg-card/80 p-3">
         {/* Input field */}
         <div className="mb-2 flex items-center gap-2 rounded-md border border-border/50 bg-secondary/30 px-2.5 py-1.5">
@@ -342,8 +341,7 @@ function ExpiryVisual() {
             strokeLinecap="round"
             strokeDasharray={circumference}
             animate={{
-              strokeDashoffset:
-                circumference - (count / 59) * circumference,
+              strokeDashoffset: circumference - (count / 59) * circumference,
             }}
             transition={{ duration: 0.5, ease: "linear" }}
           />
@@ -391,15 +389,52 @@ function OpenSourceVisual() {
   }, []);
 
   const codeLines = [
-    { tokens: [{ text: "const ", cls: "text-chart-1" }, { text: "key", cls: "text-foreground/80" }, { text: " = ", cls: "text-muted-foreground" }, { text: "generateKey", cls: "text-foreground/80" }, { text: "()", cls: "text-muted-foreground" }] },
-    { tokens: [{ text: "const ", cls: "text-chart-1" }, { text: "iv", cls: "text-foreground/80" }, { text: " = ", cls: "text-muted-foreground" }, { text: "randomBytes", cls: "text-foreground/80" }, { text: "(12)", cls: "text-muted-foreground" }] },
-    { tokens: [{ text: "const ", cls: "text-chart-1" }, { text: "cipher", cls: "text-foreground/80" }, { text: " = ", cls: "text-muted-foreground" }, { text: "encrypt", cls: "text-foreground/80" }, { text: "(data)", cls: "text-muted-foreground" }] },
-    { tokens: [{ text: "const ", cls: "text-chart-1" }, { text: "blob", cls: "text-foreground/80" }, { text: " = ", cls: "text-muted-foreground" }, { text: "upload", cls: "text-foreground/80" }, { text: "(cipher)", cls: "text-muted-foreground" }] },
-    { tokens: [{ text: "return ", cls: "text-chart-1" }, { text: "{ blob, key }", cls: "text-foreground/80" }] },
+    {
+      tokens: [
+        { text: "const ", cls: "text-chart-1" },
+        { text: "key", cls: "text-foreground/80" },
+        { text: " = ", cls: "text-muted-foreground" },
+        { text: "generateKey", cls: "text-foreground/80" },
+        { text: "()", cls: "text-muted-foreground" },
+      ],
+    },
+    {
+      tokens: [
+        { text: "const ", cls: "text-chart-1" },
+        { text: "iv", cls: "text-foreground/80" },
+        { text: " = ", cls: "text-muted-foreground" },
+        { text: "randomBytes", cls: "text-foreground/80" },
+        { text: "(12)", cls: "text-muted-foreground" },
+      ],
+    },
+    {
+      tokens: [
+        { text: "const ", cls: "text-chart-1" },
+        { text: "cipher", cls: "text-foreground/80" },
+        { text: " = ", cls: "text-muted-foreground" },
+        { text: "encrypt", cls: "text-foreground/80" },
+        { text: "(data)", cls: "text-muted-foreground" },
+      ],
+    },
+    {
+      tokens: [
+        { text: "const ", cls: "text-chart-1" },
+        { text: "blob", cls: "text-foreground/80" },
+        { text: " = ", cls: "text-muted-foreground" },
+        { text: "upload", cls: "text-foreground/80" },
+        { text: "(cipher)", cls: "text-muted-foreground" },
+      ],
+    },
+    {
+      tokens: [
+        { text: "return ", cls: "text-chart-1" },
+        { text: "{ blob, key }", cls: "text-foreground/80" },
+      ],
+    },
   ];
 
   return (
-    <div className="w-full max-w-[220px] rounded-lg border border-border/30 bg-card/80 p-3">
+    <div className="w-full max-w-55 rounded-lg border border-border/30 bg-card/80 p-3">
       <div className="mb-2 flex items-center gap-1.5">
         <div className="h-2 w-2 rounded-full bg-destructive/50" />
         <div className="h-2 w-2 rounded-full bg-chart-1/50" />
@@ -415,9 +450,7 @@ function OpenSourceVisual() {
             animate={{
               opacity: i === activeLine ? 1 : 0.35,
               backgroundColor:
-                i === activeLine
-                  ? "var(--secondary)"
-                  : "transparent",
+                i === activeLine ? "var(--secondary)" : "transparent",
             }}
             transition={{ duration: 0.3 }}
             className="flex gap-1.5 rounded px-1 py-px"
@@ -486,7 +519,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="relative px-6 py-24">
+    <section id="features" className="relative scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

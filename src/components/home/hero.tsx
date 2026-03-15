@@ -35,7 +35,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
           setText(finalText);
           setDone(true);
         }
-      }, 20);
+      }, 10);
 
       return () => clearInterval(interval);
     }, delay);
@@ -147,7 +147,7 @@ function TerminalWindow() {
             >
               <span className="text-muted-foreground">Link ready → </span>
               <span className="text-primary underline decoration-primary/30 underline-offset-2">
-                envdrop.dev/s/a8f3k2#decryptionKey
+                {window.location.origin}/s/a8f3k2#decryptionKey
               </span>
             </motion.div>
           )}
@@ -198,7 +198,7 @@ export function Hero() {
             {headline.text}
           </span>
           {!headline.done && (
-            <span className="ml-1 inline-block h-[1em] w-[3px] animate-pulse bg-primary align-middle" />
+            <span className="ml-1 inline-block h-[1em] w-0.75 animate-pulse bg-primary align-middle" />
           )}
         </motion.h1>
 

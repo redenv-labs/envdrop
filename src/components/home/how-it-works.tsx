@@ -46,7 +46,7 @@ function PasteVisual() {
           paste your secret
         </span>
       </div>
-      <div className="h-[80px] p-3 font-mono text-[11px] leading-relaxed">
+      <div className="h-20 p-3 font-mono text-[11px] leading-relaxed">
         {lines.map((line, i) => {
           const eqIndex = line.indexOf("=");
           return (
@@ -69,7 +69,7 @@ function PasteVisual() {
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.5, repeat: Infinity }}
-          className="ml-[18px] inline-block h-3.5 w-[2px] bg-primary"
+          className="ml-4.5 inline-block h-3.5 w-0.5 bg-primary"
         />
       </div>
     </div>
@@ -221,7 +221,7 @@ function ShareVisual() {
             animate={{ opacity: step >= 0 ? 1 : 0.3 }}
             className="truncate font-mono text-[10px] text-primary/80"
           >
-            envdrop.dev/s/a8f3k2#key
+            {window.location.origin}/s/a8f3k2#key
           </motion.span>
         </div>
 
@@ -294,7 +294,7 @@ export function HowItWorks() {
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <section ref={sectionRef} className="relative px-6 py-24">
+    <section id="how-it-works" ref={sectionRef} className="relative scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -335,7 +335,7 @@ export function HowItWorks() {
                 </h3>
               </div>
 
-              <p className="max-w-[260px] text-center text-sm leading-relaxed text-muted-foreground">
+              <p className="max-w-65 text-center text-sm leading-relaxed text-muted-foreground">
                 {step.description}
               </p>
             </motion.div>
