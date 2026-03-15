@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppStore } from "@/stores/app-store";
 import { motion, useInView } from "framer-motion";
 import { FileUp, Lock, Send } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -187,6 +188,7 @@ function EncryptVisual() {
 
 function ShareVisual() {
   const [step, setStep] = useState(0);
+  const { origin } = useAppStore();
 
   useEffect(() => {
     const cycle = () => {
@@ -221,7 +223,7 @@ function ShareVisual() {
             animate={{ opacity: step >= 0 ? 1 : 0.3 }}
             className="truncate font-mono text-[10px] text-primary/80"
           >
-            {window.location.origin}/s/a8f3k2#key
+            {origin}/s/a8f3k2#key
           </motion.span>
         </div>
 

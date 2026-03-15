@@ -1,8 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppProgressProvider as ProgressProvider } from "@bprogress/next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAppStore } from "@/stores/app-store";
+
+function AppStateInit() {
+  const setOrigin = useAppStore((state) => state.setOrigin);
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, [setOrigin]);
+  return null;
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -15,6 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         options={{ showSpinner: false }}
         shallowRouting
       >
+        <AppStateInit />
         {children}
       </ProgressProvider>
     </QueryClientProvider>

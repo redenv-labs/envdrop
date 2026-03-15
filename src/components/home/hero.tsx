@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Lock, Eye, Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAppStore } from "@/stores/app-store";
 
 const ENCRYPTED_CHARS = "█▓▒░╳╱╲◆◇○●";
 
@@ -27,7 +28,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
                 Math.floor(Math.random() * ENCRYPTED_CHARS.length)
               ];
             })
-            .join("")
+            .join(""),
         );
         iteration++;
         if (iteration > maxIterations) {
@@ -48,6 +49,7 @@ function useDecryptText(finalText: string, delay: number = 0) {
 
 function TerminalWindow() {
   const [step, setStep] = useState(0);
+  const { origin } = useAppStore();
 
   useEffect(() => {
     const timers = [
@@ -91,7 +93,10 @@ function TerminalWindow() {
             >
               <span className="select-none text-muted-foreground">$</span>
               <span className="text-foreground">
-                echo <span className="text-chart-1">&quot;DB_PASSWORD=s3cret_k3y_2024&quot;</span>
+                echo{" "}
+                <span className="text-chart-1">
+                  &quot;DB_PASSWORD=s3cret_k3y_2024&quot;
+                </span>
               </span>
             </motion.div>
           )}
@@ -117,7 +122,8 @@ function TerminalWindow() {
             >
               <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive" />
               <span className="text-muted-foreground">
-                Burn after read: <span className="text-foreground">enabled</span>
+                Burn after read:{" "}
+                <span className="text-foreground">enabled</span>
               </span>
             </motion.div>
           )}
@@ -131,10 +137,10 @@ function TerminalWindow() {
               <Eye className="mt-0.5 h-3.5 w-3.5 shrink-0 text-chart-1" />
               <span className="text-muted-foreground">
                 Server stores:{" "}
-                <span className="text-foreground/50">
-                  ▓▒░█▓▒░█▓▒░█▓▒░█▓▒
-                </span>{" "}
-                <span className="text-muted-foreground italic">(encrypted blob)</span>
+                <span className="text-foreground/50">▓▒░█▓▒░█▓▒░█▓▒░█▓▒</span>{" "}
+                <span className="text-muted-foreground italic">
+                  (encrypted blob)
+                </span>
               </span>
             </motion.div>
           )}
@@ -147,7 +153,7 @@ function TerminalWindow() {
             >
               <span className="text-muted-foreground">Link ready → </span>
               <span className="text-primary underline decoration-primary/30 underline-offset-2">
-                {window.location.origin}/s/a8f3k2#decryptionKey
+                {origin}/s/a8f3k2#decryptionKey
               </span>
             </motion.div>
           )}
@@ -194,9 +200,7 @@ export function Hero() {
           transition={{ duration: 0.3, delay: 0.15 }}
           className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
-          <span className="font-mono text-foreground/90">
-            {headline.text}
-          </span>
+          <span className="font-mono text-foreground/90">{headline.text}</span>
           {!headline.done && (
             <span className="ml-1 inline-block h-[1em] w-0.75 animate-pulse bg-primary align-middle" />
           )}
@@ -209,8 +213,11 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
         >
-          Paste a secret or drop a <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-sm text-foreground">.env</code> file.
-          Everything encrypts in your browser. The server never sees it.
+          Paste a secret or drop a{" "}
+          <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-sm text-foreground">
+            .env
+          </code>{" "}
+          file. Everything encrypts in your browser. The server never sees it.
         </motion.p>
 
         {/* CTAs */}
@@ -220,11 +227,17 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <Link href="/share" className="group flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30">
+          <Link
+            href="/share"
+            className="group flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30"
+          >
             Share a Secret
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
-          <Link href="/share" className="flex items-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary">
+          <Link
+            href="/share"
+            className="flex items-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+          >
             Drop a .env File
           </Link>
         </motion.div>
