@@ -1,16 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Lock,
   Shield,
-  Zap,
   Eye,
   Flame,
-  ArrowRight,
-  FileUp,
-  Send,
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { ShareForm } from "@/components/share/share-form";
@@ -52,9 +48,9 @@ function MiniEncryptionDemo() {
     <div className="overflow-hidden rounded-xl border border-border/50 bg-card/80 shadow-lg">
       {/* Terminal header */}
       <div className="flex items-center gap-2 border-b border-border/30 px-4 py-2.5">
-        <div className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
-        <div className="h-2.5 w-2.5 rounded-full bg-chart-1/60" />
-        <div className="h-2.5 w-2.5 rounded-full bg-ring/60" />
+        <div className="h-2.5 w-2.5 rounded-full bg-muted" />
+        <div className="h-2.5 w-2.5 rounded-full bg-muted" />
+        <div className="h-2.5 w-2.5 rounded-full bg-muted" />
         <span className="ml-2 font-mono text-[10px] text-muted-foreground/50">
           envdrop - encryption flow
         </span>
@@ -175,14 +171,14 @@ export function SharePageContent() {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_70%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 pb-20 pt-28">
-        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-start gap-12 grid-cols-1 lg:grid-cols-2 lg:gap-16">
           {/* Left side — Info & visual */}
           <div className="lg:sticky lg:top-28">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-5 inline-flex items-center gap-2 rounded-full border border-border/50 bg-secondary/50 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm"
+              className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary-foreground/50 px-4 py-1.5 text-sm text-primary backdrop-blur-sm"
             >
               <Lock className="h-3.5 w-3.5" />
               End-to-end encrypted

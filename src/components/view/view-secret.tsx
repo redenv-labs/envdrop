@@ -9,7 +9,6 @@ import {
   EyeOff,
   Copy,
   Check,
-  Loader2,
   AlertTriangle,
   Flame,
   FileText,
@@ -168,7 +167,7 @@ export function ViewSecret({ id }: { id: string }) {
           <div className="relative flex flex-col items-center gap-5 rounded-2xl border border-border/50 bg-card/50 p-10 shadow-lg shadow-black/5 backdrop-blur-sm">
             <div className="relative">
               <div className="absolute -inset-4 animate-pulse rounded-full bg-primary/10 blur-lg" />
-              <Loader2 className="relative h-10 w-10 animate-spin text-primary" />
+              <Spinner size="lg" />
             </div>
             <div className="text-center">
               <p className="text-sm font-medium">
@@ -538,7 +537,7 @@ export function ViewSecret({ id }: { id: string }) {
         >
           {burnMutation.isPending ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Spinner size="sm" />
               Burning...
             </>
           ) : (

@@ -75,9 +75,9 @@ function TerminalWindow() {
       <div className="relative overflow-hidden rounded-xl border border-border/50 bg-card shadow-2xl">
         {/* Terminal header */}
         <div className="flex items-center gap-2 border-b border-border/50 px-4 py-3">
-          <div className="h-3 w-3 rounded-full bg-destructive/70" />
-          <div className="h-3 w-3 rounded-full bg-chart-1/70" />
-          <div className="h-3 w-3 rounded-full bg-ring/70" />
+          <div className="h-3 w-3 rounded-full bg-muted" />
+          <div className="h-3 w-3 rounded-full bg-muted" />
+          <div className="h-3 w-3 rounded-full bg-muted" />
           <span className="ml-2 font-mono text-xs text-muted-foreground">
             envdrop - zero-knowledge sharing
           </span>
@@ -187,7 +187,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full border border-border/50 bg-secondary/50 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm"
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary-foreground/50 px-4 py-1.5 text-sm text-primary backdrop-blur-sm"
         >
           <Lock className="h-3.5 w-3.5" />
           Zero-knowledge encryption
@@ -214,7 +214,7 @@ export function Hero() {
           className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
         >
           Paste a secret or drop a{" "}
-          <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-sm text-foreground">
+          <code className="rounded bg-primary-foreground px-1.5 py-0.5 font-mono text-sm text-primary">
             .env
           </code>{" "}
           file. Everything encrypts in your browser. The server never sees it.

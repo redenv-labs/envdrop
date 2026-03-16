@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Lock, Loader2, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight } from "lucide-react";
 import {
   generateRandomKey,
   exportKey,
@@ -19,6 +19,7 @@ import { SecretInput } from "./secret-input";
 import { ShareOptions } from "./share-options";
 import { SuccessView } from "./success-view";
 import { ErrorBanner } from "./error-banner";
+import { Spinner } from "@heroui/spinner";
 
 const MAX_SIZE_KB = 200;
 
@@ -114,7 +115,9 @@ export function ShareForm({
       : 0;
   const isTextTooLarge = store.mode === "text" && textSizeKB > MAX_SIZE_KB;
   const fileTooLarge =
-    store.mode === "file" && !!store.file && store.file.size > MAX_SIZE_KB * 1024;
+    store.mode === "file" &&
+    !!store.file &&
+    store.file.size > MAX_SIZE_KB * 1024;
   const isTooLarge = isTextTooLarge || fileTooLarge;
 
   const sizeErrorMessage = isTooLarge
@@ -176,7 +179,7 @@ export function ShareForm({
       >
         {mutation.isPending ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Spinner size="sm" />
             Encrypting...
           </>
         ) : (

@@ -21,9 +21,9 @@ function Toggle({
       )}
     >
       <motion.div
-        animate={{ x: enabled ? 20 : 2 }}
+        animate={{ x: enabled ? 24 : 4 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="absolute top-1 h-4 w-4 rounded-full bg-primary-foreground shadow-sm"
+        className={cn("absolute top-1 h-4 w-4 rounded-full shadow-sm transition-colors duration-300", enabled ? "bg-primary-foreground" : "bg-primary/50")}
       />
     </button>
   );

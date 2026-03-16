@@ -11,6 +11,8 @@
   "dependencies": {
     "@bprogress/next": "^3.2.12",
     "@heroui/spinner": "^2.2.29",
+    "@heroui/system": "^2.4.28",
+    "@heroui/theme": "^2.4.26",
     "@hugeicons/core-free-icons": "^4.0.0",
     "@hugeicons/react": "^1.1.6",
     "@redenv/e2ee": "^1.0.0",

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { AppProgressProvider as ProgressProvider } from "@bprogress/next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAppStore } from "@/stores/app-store";
+import { HeroUIProvider } from "@heroui/system";
 
 function AppStateInit() {
   const setOrigin = useAppStore((state) => state.setOrigin);
@@ -17,16 +18,18 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ProgressProvider
-        height="3px"
-        color="oklch(0.723 0.014 214.4)"
-        options={{ showSpinner: false }}
-        shallowRouting
-      >
-        <AppStateInit />
-        {children}
-      </ProgressProvider>
-    </QueryClientProvider>
+    <HeroUIProvider>
+      <QueryClientProvider client={queryClient}>
+        <ProgressProvider
+          height="1px"
+          color="oklch(0.9 0.21 132.46)"
+          options={{ showSpinner: false }}
+          shallowRouting
+        >
+          <AppStateInit />
+          {children}
+        </ProgressProvider>
+      </QueryClientProvider>
+    </HeroUIProvider>
   );
 }
