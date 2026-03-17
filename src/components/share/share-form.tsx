@@ -179,7 +179,13 @@ export function ShareForm({
       >
         {mutation.isPending ? (
           <>
-            <Spinner size="sm" />
+            <Spinner
+              size="sm"
+              classNames={{
+                circle1: "border-b-black",
+                circle2: "border-b-black",
+              }}
+            />
             Encrypting...
           </>
         ) : (
