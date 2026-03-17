@@ -270,7 +270,7 @@ export function SharePageContent() {
           >
             <div className="relative">
               <div className="absolute -inset-3 rounded-[28px] bg-primary/3 blur-xl" />
-              <div className="relative rounded-2xl border border-border/50 bg-card/50 p-6 shadow-lg shadow-black/5 backdrop-blur-sm sm:p-8">
+              <div className="relative rounded-2xl border border-border/50 bg-card/50 p-4 shadow-lg shadow-black/5 backdrop-blur-sm sm:p-8">
                 <ShareForm
                   droppedFile={droppedFile}
                   onDroppedFileConsumed={() => setDroppedFile(null)}

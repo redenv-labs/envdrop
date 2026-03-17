@@ -85,40 +85,37 @@
   --radius: 0.625rem;
 }
 
-body {
-  @apply bg-background text-foreground;
-}
-html {
-  @apply font-sans;
+@layer base {
+  html {
+    @apply overflow-x-hidden font-sans;
+  }
+
+  body {
+    @apply overflow-x-hidden bg-background text-foreground;
+  }
+
+  button,
+  a {
+    @apply cursor-pointer;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
 }
 
-button,
-a {
-  @apply cursor-pointer;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
-}
 
 @utility scrollbar-hide {
   -ms-overflow-style: none;

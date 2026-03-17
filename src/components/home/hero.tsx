@@ -78,7 +78,7 @@ function TerminalWindow() {
           <div className="h-3 w-3 rounded-full bg-muted" />
           <div className="h-3 w-3 rounded-full bg-muted" />
           <div className="h-3 w-3 rounded-full bg-muted" />
-          <span className="ml-2 font-mono text-xs text-muted-foreground">
+          <span className="ml-2 font-mono text-xs text-muted-foreground truncate">
             envdrop - zero-knowledge sharing
           </span>
         </div>
@@ -94,7 +94,7 @@ function TerminalWindow() {
               <span className="select-none text-muted-foreground">$</span>
               <span className="text-foreground">
                 echo{" "}
-                <span className="text-chart-1">
+                <span className="text-chart-1 truncate">
                   &quot;DB_PASSWORD=s3cret_k3y_2024&quot;
                 </span>
               </span>
@@ -149,7 +149,7 @@ function TerminalWindow() {
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="mt-4 rounded-lg border border-border/50 bg-secondary/30 px-4 py-3"
+              className="mt-4 rounded-lg border border-border/50 bg-secondary/30 px-4 py-3 truncate"
             >
               <span className="text-muted-foreground">Link ready → </span>
               <span className="text-primary underline decoration-primary/30 underline-offset-2">

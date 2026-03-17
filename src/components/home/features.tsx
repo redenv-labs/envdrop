@@ -314,7 +314,7 @@ function ExpiryVisual() {
     return () => clearInterval(interval);
   }, []);
 
-  const options = ["1h", "24h", "7d"];
+  const options = ["1h", "24h", "3d"];
   const circumference = 2 * Math.PI * 18;
 
   return (

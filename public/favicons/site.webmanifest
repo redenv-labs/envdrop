@@ -1,0 +1,37 @@
+{
+  "short_name": "EnvDrop",
+  "dir": "auto",
+  "name": "",
+  "background_color": "#090b0c",
+  "theme_color": "#090b0c",
+  "display": "standalone",
+  "start_url": "https://envdrop.dev/?launchedfrom=homescreen",
+  "scope": "https://envdrop.dev",
+  "id": "https://envdrop.dev/hb6rwGuMNIdZibvj5srL",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "icons": [
+    {
+      "src": "/favicons/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+pwa",
+      "url": "https://envdrop.dev/?launchedfrom=homescreen&pwaprotocolredirect=%s"
+    },
+    {
+      "protocol": "web+envdrop",
+      "url": "https://envdrop.dev/?launchedfrom=homescreen&pwaprotocolredirect=%s"
+    }
+  ]
+}

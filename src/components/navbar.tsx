@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Shield, Github, ArrowRight } from "lucide-react";
+import { Github, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { APP_GITHUB_URL } from "@/config";
+import Image from "next/image";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -33,19 +35,14 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
-          <div className="relative">
-            <div className="absolute -inset-1 rounded-lg bg-primary/20 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-md bg-primary transition-transform duration-200 group-hover:scale-105">
-              <Shield className="h-3.5 w-3.5 text-primary-foreground" />
-            </div>
-          </div>
+          <Image src="/envdrop.png" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
           <span className="text-sm font-semibold tracking-tight">EnvDrop</span>
         </Link>
 
         {/* Right side */}
         <div className="flex items-center gap-1.5">
           <a
-            href="https://github.com/redenv-labs/envdrop"
+            href={APP_GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"

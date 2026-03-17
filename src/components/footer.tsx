@@ -3,6 +3,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Github, ExternalLink, Sparkles } from "lucide-react";
+import { DEVELOPED_BY_URL } from "@/config";
+import Image from "next/image";
 
 const footerLinks = {
   product: [
@@ -110,7 +112,7 @@ export function Footer() {
                 <div className="group relative">
                   <div className="absolute -inset-2 rounded-2xl bg-primary/20 opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
                   <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-linear-to-br from-primary/20 to-primary/5">
-                    <Shield className="h-6 w-6 text-primary" />
+                    <Image src="/envdrop.png" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
                   </div>
                 </div>
                 <div>
@@ -118,7 +120,7 @@ export function Footer() {
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     by{" "}
                     <a
-                      href="https://github.com/redenv-labs"
+                      href={DEVELOPED_BY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-muted-foreground hover:underline"
@@ -218,7 +220,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()}{" "}
               <a
                 className="text-foreground/70 hover:underline"
-                href="https://github.com/redenv-labs"
+                href={DEVELOPED_BY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

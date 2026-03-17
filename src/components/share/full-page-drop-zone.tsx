@@ -10,23 +10,16 @@ interface FullPageDropZoneProps {
 
 export function FullPageDropZone({ onFileDrop }: FullPageDropZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const [dragCounter, setDragCounter] = useState(0);
 
   const handleDragEnter = useCallback((e: DragEvent) => {
     e.preventDefault();
     if (e.dataTransfer?.types.includes("Files")) {
-      setDragCounter((c) => c + 1);
       setIsDragging(true);
     }
   }, []);
 
   const handleDragLeave = useCallback((e: DragEvent) => {
     e.preventDefault();
-    setDragCounter((c) => {
-      const next = c - 1;
-      if (next <= 0) setIsDragging(false);
-      return Math.max(0, next);
-    });
   }, []);
 
   const handleDragOver = useCallback((e: DragEvent) => {
@@ -37,7 +30,6 @@ export function FullPageDropZone({ onFileDrop }: FullPageDropZoneProps) {
     (e: DragEvent) => {
       e.preventDefault();
       setIsDragging(false);
-      setDragCounter(0);
 
       const file = e.dataTransfer?.files[0];
       if (file) onFileDrop(file);
@@ -67,7 +59,7 @@ export function FullPageDropZone({ onFileDrop }: FullPageDropZoneProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 backdrop-blur-md"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-background/80 backdrop-blur-md"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}

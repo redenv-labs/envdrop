@@ -75,25 +75,52 @@ export function ShareOptions() {
         </div>
 
         {/* Expiry */}
-        <div className="flex items-center justify-between rounded-xl px-3 py-3 transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-chart-1/10">
-              <Clock className="h-4 w-4 text-chart-1" />
+        <div className="rounded-xl px-3 py-3 transition-colors">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-chart-1/10">
+                <Clock className="h-4 w-4 text-chart-1" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Expiry</p>
+                <p className="text-xs text-muted-foreground">
+                  Auto-delete after time
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium">Expiry</p>
-              <p className="text-xs text-muted-foreground">
-                Auto-delete after time
-              </p>
+            {/* Desktop: inline */}
+            <div className="hidden gap-1 rounded-lg border border-border/50 bg-secondary/30 p-0.5 sm:flex">
+              {(["1h", "24h", "3d"] as const).map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => setExpiry(opt)}
+                  className={cn(
+                    "relative rounded-md px-3 py-1.5 font-mono text-xs font-medium transition-all",
+                    expiry === opt
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {expiry === opt && (
+                    <motion.div
+                      layoutId="expiry-bg"
+                      className="absolute inset-0 rounded-md bg-background/50 shadow-sm"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative">{opt}</span>
+                </button>
+              ))}
             </div>
           </div>
-          <div className="flex gap-1 rounded-lg border border-border/50 bg-secondary/30 p-0.5">
+          {/* Mobile: full-width row below */}
+          <div className="mt-2.5 flex gap-1 rounded-lg border border-border/50 bg-secondary/30 p-0.5 sm:hidden">
             {(["1h", "24h", "3d"] as const).map((opt) => (
               <button
                 key={opt}
                 onClick={() => setExpiry(opt)}
                 className={cn(
-                  "relative rounded-md px-3 py-1.5 font-mono text-xs font-medium transition-all",
+                  "relative flex-1 rounded-md py-2 font-mono text-xs font-medium transition-all",
                   expiry === opt
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",
@@ -101,7 +128,7 @@ export function ShareOptions() {
               >
                 {expiry === opt && (
                   <motion.div
-                    layoutId="expiry-bg"
+                    layoutId="expiry-bg-mobile"
                     className="absolute inset-0 rounded-md bg-background/50 shadow-sm"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
