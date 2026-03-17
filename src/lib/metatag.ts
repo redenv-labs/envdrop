@@ -1,4 +1,4 @@
-import { getOrigin } from "./url";
+import { getCurrentUrl, getOrigin } from "./url";
 
 export const metatag = async ({
   title,
@@ -8,13 +8,14 @@ export const metatag = async ({
   description,
 }: {
   title: string;
-  url: string;
+  url?: string;
   robots?: string;
   keywords?: string[];
   description?: string;
 }) => {
   const origin = await getOrigin();
-  const fav = `${origin}/favicons/favicon.svg`;
+  const thumbnail = `${origin}/favicons/favicon.png`;
+  if (!url) url = await getCurrentUrl();
 
   const fixedKeywords: string[] = [];
 
@@ -30,7 +31,7 @@ export const metatag = async ({
       siteName: title,
       images: [
         {
-          url: fav,
+          url: thumbnail,
           width: 1200,
           height: 630,
         },
@@ -40,7 +41,7 @@ export const metatag = async ({
     },
     twitter: {
       title: title,
-      images: [fav],
+      images: [thumbnail],
     },
     alternates: {
       canonical: url,

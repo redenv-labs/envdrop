@@ -1,12 +1,9 @@
 import { ViewSecretPage } from "@/components/view/view-secret-page";
 import { metatag } from "@/lib/metatag";
-import { getOrigin } from "@/lib/url";
 
 export async function generateMetadata() {
-  const origin = await getOrigin();
   return metatag({
     title: "View Secret | EnvDrop",
-    url: `${origin}/s`,
     description:
       "Decrypt and view a shared secret. Zero-knowledge decryption happens entirely in your browser.",
     keywords: [

@@ -5,13 +5,10 @@ import { Features } from "@/components/home/features";
 import { Roadmap } from "@/components/home/roadmap";
 import { Footer } from "@/components/footer";
 import { metatag } from "@/lib/metatag";
-import { getOrigin } from "@/lib/url";
 
 export async function generateMetadata() {
-  const origin = await getOrigin();
   return metatag({
     title: "EnvDrop | Zero-Knowledge Secret Sharing",
-    url: origin,
     description:
       "Share secrets, API keys, and .env files securely. End-to-end encrypted in your browser. The server never sees the plaintext.",
     keywords: [
