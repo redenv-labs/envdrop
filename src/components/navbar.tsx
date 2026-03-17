@@ -27,16 +27,16 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={cn(
-          "flex h-16 w-full max-w-3xl items-center justify-between rounded-2xl border px-5 transition-all duration-300",
+          "flex h-16 w-full max-w-3xl items-center justify-between rounded-2xl border px-5 transition-all duration-500",
           scrolled
-            ? "border-border/50 bg-background/70 shadow-lg shadow-black/5 backdrop-blur-xl"
-            : "border-border/30 bg-background/50 backdrop-blur-md",
+            ? "border-border/70 bg-muted/30 shadow-lg shadow-black/5 backdrop-blur-xl"
+            : "border-border/50 bg-background/50 backdrop-blur-md",
         )}
       >
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
-          <Image src="/envdrop.png" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
-          <span className="text-sm font-semibold tracking-tight">EnvDrop</span>
+          <Image src="/envdrop.svg" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
+          <span className="text-base font-semibold tracking-tight">EnvDrop</span>
         </Link>
 
         {/* Right side */}

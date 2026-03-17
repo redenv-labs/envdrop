@@ -1,4 +1,4 @@
-import { ViewSecretPage } from "@/components/view/view-secret-page";
+import { ViewSecretView } from "@/app/s/[id]/view";
 import { metatag } from "@/lib/metatag";
 
 export async function generateMetadata() {
@@ -22,5 +22,5 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <ViewSecretPage id={id} />;
+  return <ViewSecretView id={id} />;
 }

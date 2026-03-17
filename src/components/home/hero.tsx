@@ -5,47 +5,8 @@ import { ArrowRight, Lock, Eye, Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAppStore } from "@/stores/app-store";
-
-const ENCRYPTED_CHARS = "█▓▒░╳╱╲◆◇○●";
-
-function useDecryptText(finalText: string, delay: number = 0) {
-  const [text, setText] = useState("");
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      let iteration = 0;
-      const maxIterations = finalText.length * 2;
-
-      const interval = setInterval(() => {
-        setText(
-          finalText
-            .split("")
-            .map((char, i) => {
-              if (char === " ") return " ";
-              if (i < iteration / 2) return char;
-              return ENCRYPTED_CHARS[
-                Math.floor(Math.random() * ENCRYPTED_CHARS.length)
-              ];
-            })
-            .join(""),
-        );
-        iteration++;
-        if (iteration > maxIterations) {
-          clearInterval(interval);
-          setText(finalText);
-          setDone(true);
-        }
-      }, 10);
-
-      return () => clearInterval(interval);
-    }, delay);
-
-    return () => clearTimeout(timeout);
-  }, [finalText, delay]);
-
-  return { text, done };
-}
+import { useDecryptText } from "@/hooks/use-decrypt-text";
+import { getEncryptedChars } from "@/lib/chars";
 
 function TerminalWindow() {
   const [step, setStep] = useState(0);
@@ -92,7 +53,7 @@ function TerminalWindow() {
               className="flex items-start gap-2"
             >
               <span className="select-none text-muted-foreground">$</span>
-              <span className="text-foreground">
+              <span className="text-foreground truncate">
                 echo{" "}
                 <span className="text-chart-1 truncate">
                   &quot;DB_PASSWORD=s3cret_k3y_2024&quot;
@@ -163,8 +124,26 @@ function TerminalWindow() {
   );
 }
 
+const badgeTexts = [
+  "Zero-knowledge encryption",
+  "Client-side AES-256-GCM",
+  "Burn after reading",
+  "No sign-up required",
+  "Open source & auditable",
+];
+
 export function Hero() {
-  const headline = useDecryptText("Stop sharing secrets in plaintext.", 200);
+  const headline = useDecryptText("Stop sharing secrets in plaintext.", {
+    speed: 20,
+  });
+
+  const badge = useDecryptText(badgeTexts, {
+    speed: 15,
+    delay: 500,
+    loop: true,
+    loopInterval: 2500,
+    encryptedChars: getEncryptedChars("ascii"),
+  });
 
   return (
     <section className="relative flex flex-col items-center overflow-hidden px-6 pt-32 pb-20">
@@ -190,7 +169,7 @@ export function Hero() {
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary-foreground/50 px-4 py-1.5 text-sm text-primary backdrop-blur-sm"
         >
           <Lock className="h-3.5 w-3.5" />
-          Zero-knowledge encryption
+          <span className="font-mono min-w-45 text-left">{badge.text}</span>
         </motion.div>
 
         {/* Headline with decrypt animation */}
@@ -200,8 +179,9 @@ export function Hero() {
           transition={{ duration: 0.3, delay: 0.15 }}
           className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
+          <span className="sr-only">Stop sharing secrets in plaintext.</span>
           <span className="font-mono text-foreground/90">{headline.text}</span>
-          {!headline.done && (
+          {!headline.isDone && (
             <span className="ml-1 inline-block h-[1em] w-0.75 animate-pulse bg-primary align-middle" />
           )}
         </motion.h1>
@@ -247,7 +227,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.0 }}
-          className="mt-8 flex items-center justify-center gap-6 text-xs text-muted-foreground"
+          className="mt-8 flex items-center justify-center gap-6 text-sm flex-wrap text-muted-foreground"
         >
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-ring" />

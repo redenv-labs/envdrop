@@ -14,7 +14,7 @@ export const metatag = async ({
   description?: string;
 }) => {
   const origin = await getOrigin();
-  const thumbnail = `${origin}/favicons/favicon.png`;
+  const thumbnail = `${origin}/thumbnail.png`;
   if (!url) url = await getCurrentUrl();
 
   const fixedKeywords: string[] = [];

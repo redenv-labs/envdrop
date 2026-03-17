@@ -112,7 +112,7 @@ export function Footer() {
                 <div className="group relative">
                   <div className="absolute -inset-2 rounded-2xl bg-primary/20 opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100" />
                   <div className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-linear-to-br from-primary/20 to-primary/5">
-                    <Image src="/envdrop.png" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
+                    <Image src="/envdrop.svg" alt="Logo" width={100} height={100} className="w-8 h-8" priority />
                   </div>
                 </div>
                 <div>
