@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/envdrop.svg" alt="EnvDrop" width="80" />
+</p>
 
-## Getting Started
+<h1 align="center">EnvDrop</h1>
 
-First, run the development server:
+<p align="center">
+  Zero-knowledge encrypted secret sharing for developers.
+  <br />
+  Paste a secret or drop a <code>.env</code> file - everything encrypts in your browser.
+  <br />
+  The server never sees it.
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<p align="center">
+  <a href="https://envdrop.dev">Website</a> &middot;
+  <a href="https://github.com/redenv-labs/envdrop/issues">Issues</a> &middot;
+  <a href="https://github.com/redenv-labs/envdrop">GitHub</a>
+</p>
+
+---
+
+## How It Works
+
+```
+You                          EnvDrop Server                    Recipient
+ │                               │                               │
+ ├─ Encrypt in browser ──────►   │                               │
+ │  (AES-256-GCM)                │                               │
+ │                               ├─ Store encrypted blob         │
+ │                               │  (zero knowledge)             │
+ ├─ Get share link ◄─────────    │                               │
+ │  (key lives in URL fragment)  │                               │
+ │                               │                               │
+ ├─ Send link to recipient ──────────────────────────────────►   │
+ │                               │                               │
+ │                               │    ◄── Fetch encrypted blob ──┤
+ │                               │                               │
+ │                               │        Decrypt in browser ────┤
+ │                               │        (AES-256-GCM)          │
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Your browser generates a random AES-256-GCM key and encrypts the secret client-side
+2. Only the encrypted blob is sent to the server - the key stays in the URL fragment (`#key`), which is never sent over HTTP
+3. The recipient opens the link, their browser fetches the blob and decrypts it locally
+4. If burn-after-read is enabled, the secret is destroyed after successful decryption
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Zero-knowledge encryption** - AES-256-GCM, client-side only. The server stores encrypted blobs it cannot read.
+- **Burn after read** - Secret self-destructs after one successful decryption.
+- **Password protection** - Optional second layer using PBKDF2 key derivation.
+- **File support** - Drop a `.env` file or any file up to 200KB.
+- **Auto-expiry** - Choose 1 hour, 24 hours, or 3 days. Secrets are purged from Redis after TTL.
+- **Rate limiting** - Per-IP sliding window to prevent abuse.
+- **No sign-up** - No accounts, no tracking, no cookies.
+- **Open source** - MIT licensed. Audit the crypto yourself.
 
-## Learn More
+## Security Model
 
-To learn more about Next.js, take a look at the following resources:
+- Encryption and decryption happen **exclusively in the browser** using the Web Crypto API
+- The encryption key is placed in the **URL fragment** (`#`), which browsers never send to the server
+- The server only stores the encrypted ciphertext - it cannot decrypt anything
+- Password-protected secrets use **PBKDF2** to derive a wrapping key that encrypts the master key
+- Burn-after-read deletion is triggered **client-side after successful decryption**, preventing premature deletion on page reload
+- All API endpoints are **rate-limited** per IP using Upstash Ratelimit
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Please open an issue first to discuss what you'd like to change.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE) - built by [Redenv Labs](https://github.com/redenv-labs)
